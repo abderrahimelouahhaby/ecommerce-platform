@@ -2,8 +2,6 @@
 
 A full stack online store for electronics and gadgets. Customers can browse products, save favorites to a wishlist, fill a cart and pay by card (Stripe test mode) or cash on delivery. An admin manages products, orders, users and stock from a dashboard.
 
-
-
 ## Status
 
 In progress.
