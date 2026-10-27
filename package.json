@@ -1,0 +1,30 @@
+{
+  "name": "ecommerce-platform",
+  "version": "1.0.0",
+  "description": "A full stack online store for electronics and gadgets. Customers can browse products, save favorites to a wishlist, fill a cart and pay by card (Stripe test mode) or cash on delivery. An admin manages products, orders, users and stock from a dashboard.",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abderrahimelouahhaby/ecommerce-platform.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/abderrahimelouahhaby/ecommerce-platform/issues"
+  },
+  "homepage": "https://github.com/abderrahimelouahhaby/ecommerce-platform#readme",
+  "private": "true",
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10"
+  }
+}
