@@ -19,3 +19,14 @@ A short note after each part: what I built, what I learned, what was hard.
 - One central error handler gives every error the same JSON shape and never leaks internal details
 - Added the health route and 6 tests with Vitest and Supertest
 - Learned: exporting the app separately from `listen` is what makes API tests easy, and a graceful shutdown lets requests finish before the server stops
+
+## Part 3: Prisma schema, migrations and seed
+
+- Set up Prisma 7 with the PostgreSQL adapter and a generated client that is not committed
+- Wrote the models: User, Category, Product, WishlistItem, Order and OrderItem, with enums for roles, order status and payment
+- Stored money in cents, used UUIDs, and chose Cascade or Restrict for every relation
+- Added CHECK constraints by editing the migration, so the database refuses negative stock and prices
+- Added a database health route and a separate test database
+- Wrote a seed script with 5 categories and 30 electronics products that can run many times without duplicates
+- Wrote tests for the seed data and for the database rules
+- Learned: a migration is a SQL file kept in Git, and the database can protect data even when the code has a bug

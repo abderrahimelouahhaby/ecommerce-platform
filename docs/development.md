@@ -50,3 +50,19 @@ This deletes all data in the development database.
 
     docker compose -f docker-compose.dev.yml down -v
     npm run db:up
+
+## Database (from part 3)
+
+After the first setup, run these commands inside `server/`:
+
+    npm run db:generate
+    npm run db:migrate
+    npm run db:seed
+
+To create the test database once (in the project root):
+
+    npm run db:test:create
+    cd server
+    npm run db:test:migrate
+
+More about the models and the commands is in `docs/database.md`.
