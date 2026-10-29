@@ -21,3 +21,6 @@ npm-debug.log*
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# prisma generated client
+server/src/generated/
