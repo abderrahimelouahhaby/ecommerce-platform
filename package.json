@@ -8,7 +8,8 @@
     "prepare": "husky",
     "db:up": "docker compose -f docker-compose.dev.yml up -d",
     "db:down": "docker compose -f docker-compose.dev.yml down",
-    "db:logs": "docker compose -f docker-compose.dev.yml logs -f db"
+    "db:logs": "docker compose -f docker-compose.dev.yml logs -f db",
+    "db:test:create": "docker compose -f docker-compose.dev.yml exec db psql -U ecommerce -d ecommerce_db -c \"CREATE DATABASE ecommerce_test;\""
   },
   "repository": {
     "type": "git",
