@@ -29,4 +29,3 @@ A short note after each part: what I built, what I learned, what was hard.
 - Added a database health route and a separate test database
 - Wrote a seed script with 5 categories and 30 electronics products that can run many times without duplicates
 - Wrote tests for the seed data and for the database rules
-- Learned: a migration is a SQL file kept in Git, and the database can protect data even when the code has a bug
