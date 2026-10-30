@@ -51,7 +51,7 @@ This deletes all data in the development database.
     docker compose -f docker-compose.dev.yml down -v
     npm run db:up
 
-## Database (from part 3)
+## Database
 
 After the first setup, run these commands inside `server/`:
 
@@ -66,3 +66,20 @@ To create the test database once (in the project root):
     npm run db:test:migrate
 
 More about the models and the commands is in `docs/database.md`.
+
+## Authentication
+
+Add these variables to `server/.env` (see `server/.env.example`):
+
+    BETTER_AUTH_SECRET=<run: openssl rand -base64 32>
+    BETTER_AUTH_URL=http://localhost:4000
+    ADMIN_EMAIL=admin@example.com
+    ADMIN_PASSWORD=<at least 12 characters>
+
+Then run the migrations and the seed inside `server/`:
+
+    npm run db:migrate
+    npm run db:test:migrate
+    npm run db:seed
+
+How the login works, the routes and the development accounts are in `docs/auth.md`.

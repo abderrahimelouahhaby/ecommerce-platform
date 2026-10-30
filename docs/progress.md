@@ -29,3 +29,13 @@ A short note after each part: what I built, what I learned, what was hard.
 - Added a database health route and a separate test database
 - Wrote a seed script with 5 categories and 30 electronics products that can run many times without duplicates
 - Wrote tests for the seed data and for the database rules
+
+## Part 4: Authentication (server)
+
+- Added Better Auth with the Prisma adapter, and the session, account and verification models
+- Passwords are hashed, sessions live in the database and the cookie is HttpOnly and SameSite Lax
+- Added a role to the user that cannot be chosen at registration (`input: false`)
+- Wrote requireAuth and requireAdmin, and locked the whole admin router by default
+- Added rate limits on the auth routes, a strict one for sign in and sign up
+- The seed script creates an admin from environment variables and a demo customer
+- Wrote 14 tests: hashed password, role escalation, wrong password, cookie flags, sign out, 401 and 403 and 200 on the admin route, and the rate limiter
