@@ -10,6 +10,8 @@ export default defineConfig({
       CLIENT_URL: "http://localhost:5173",
       LOG_LEVEL: "silent",
       DATABASE_URL: "postgresql://ecommerce:ecommerce@localhost:5432/ecommerce_test",
+      BETTER_AUTH_SECRET: "test-secret-that-is-at-least-32-characters-long",
+      BETTER_AUTH_URL: "http://localhost:4000",
     },
   },
 });
