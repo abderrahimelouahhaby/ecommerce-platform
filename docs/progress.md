@@ -39,3 +39,13 @@ A short note after each part: what I built, what I learned, what was hard.
 - Added rate limits on the auth routes, a strict one for sign in and sign up
 - The seed script creates an admin from environment variables and a demo customer
 - Wrote 14 tests: hashed password, role escalation, wrong password, cookie flags, sign out, 401 and 403 and 200 on the admin route, and the rate limiter
+
+## Part 5: Products and categories API
+
+- Split the feature in a schema, a service, a controller and routes
+- Validated every query parameter with Zod: limit capped at 50, sort is an allowed word, min price not above max price
+- Sent only whitelisted fields to the client, so internal fields never leak
+- Inactive products behave like products that do not exist (404, hidden in lists and counts)
+- Built pagination with a stable sort order and a count that matches the page
+- Wrote 11 focused tests on visibility, filters, validation and SQL injection, and wrote down what we do not test
+- Learned: in Express 5 `req.query` is read only, so validation happens in the controller.
