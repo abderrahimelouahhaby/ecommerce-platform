@@ -83,3 +83,13 @@ Then run the migrations and the seed inside `server/`:
     npm run db:seed
 
 How the login works, the routes and the development accounts are in `docs/auth.md`.
+
+## Client (from part 6)
+
+In `client/`, copy the example file and start the dev server (the API server must run too):
+
+    cp .env.example .env
+    npm install
+    npm run dev
+
+From the project root you can also use `npm run dev:server` and `npm run dev:client`, each in its own terminal tab. The app runs on http://localhost:5173 and sends `/api` requests to the server on port 4000. More details are in `docs/client.md`.
