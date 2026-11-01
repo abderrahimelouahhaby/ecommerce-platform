@@ -49,3 +49,13 @@ A short note after each part: what I built, what I learned, what was hard.
 - Built pagination with a stable sort order and a count that matches the page
 - Wrote 11 focused tests on visibility, filters, validation and SQL injection, and wrote down what we do not test
 - Learned: in Express 5 `req.query` is read only, so validation happens in the controller.
+
+## Part 6: Client foundation
+
+- Set up Tailwind CSS 4 and shadcn/ui (the component code is copied into the project)
+- Added an `@/` import alias and a Vite dev proxy, so the browser calls `/api` on the same address as the page
+- Built a public layout (navbar with a mobile menu, footer) and an admin layout with React Router
+- Added a light and dark theme with next-themes, toasts with Sonner and TanStack Query with its devtools
+- Created an Axios instance, a checked environment file and a price formatter with a test
+- Only tested the money formatting, the rest is visible in the browser right away
+- Learned: a dev proxy makes the app behave like production
