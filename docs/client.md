@@ -37,3 +37,12 @@ The client always calls `/api/...`. In development Vite forwards it to `http://l
 | `npm run lint`       | Run ESLint                           |
 | `npm test`           | Run the tests once                   |
 | `npm run test:watch` | Run the tests again on every change  |
+
+## Authentication
+
+- `lib/auth-client.ts` is the Better Auth client. It calls `/api/auth/*` on the same address as the page.
+- `features/auth/useAuth.ts` gives `user`, `isLoading`, `isAuthenticated` and `isAdmin` to any component.
+- Forms use React Hook Form with Zod schemas (`features/auth/schemas.ts`). The server rules are the real ones, the form rules are only fast feedback.
+- Route guards in `routes/`: `ProtectedRoute` (logged in users), `AdminRoute` (admins) and `GuestRoute` (visitors only). They are for comfort only, the API checks access again.
+- After login the user returns to the page they wanted through `?redirect=`. The value always goes through `getSafeRedirect`, which accepts local paths only.
+- On logout the TanStack Query cache is cleared, so no data of the previous user stays in memory.
