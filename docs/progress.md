@@ -59,3 +59,12 @@ A short note after each part: what I built, what I learned, what was hard.
 - Created an Axios instance, a checked environment file and a price formatter with a test
 - Only tested the money formatting, the rest is visible in the browser right away
 - Learned: a dev proxy makes the app behave like production
+
+## Part 7: Authentication UI
+
+- Added the Better Auth client and a `useAuth` hook, so every component knows who is logged in
+- Built the login and register pages with React Hook Form and Zod, with accessible fields and error messages
+- Used a generic login error, so the form does not tell which emails have an account
+- Added route guards for logged in users, admins and visitors, while the server stays the real lock
+- Protected the redirect after login against open redirect attacks, and cleared the query cache on logout
+- Added Playwright with its own ports and test database, and wrote 4 end to end tests plus a unit test for the redirect helper
