@@ -6,9 +6,10 @@ import { createAuthClient } from "better-auth/react";
 export const authClient = createAuthClient({
   plugins: [
     // Tells TypeScript about the extra "role" field we added to users on the server.
+    // input: false means the client can never send it (the server refuses it too).
     inferAdditionalFields({
       user: {
-        role: { type: "string" },
+        role: { type: "string", required: false, input: false },
       },
     }),
   ],

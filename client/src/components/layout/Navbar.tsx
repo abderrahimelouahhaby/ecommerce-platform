@@ -12,6 +12,7 @@ import {
 import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
+import { UserMenu } from "./UserMenu";
 
 const links = [
   { to: "/", label: "Home" },
@@ -62,9 +63,7 @@ export function Navbar() {
           >
             <ShoppingCart className="size-5" />
           </Link>
-          <Link to="/login" className={cn(buttonVariants({ size: "sm" }), "ml-2")}>
-            Log in
-          </Link>
+          <UserMenu />
         </div>
       </div>
 
