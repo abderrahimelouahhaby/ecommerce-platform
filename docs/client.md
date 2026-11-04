@@ -46,3 +46,12 @@ The client always calls `/api/...`. In development Vite forwards it to `http://l
 - Route guards in `routes/`: `ProtectedRoute` (logged in users), `AdminRoute` (admins) and `GuestRoute` (visitors only). They are for comfort only, the API checks access again.
 - After login the user returns to the page they wanted through `?redirect=`. The value always goes through `getSafeRedirect`, which accepts local paths only.
 - On logout the TanStack Query cache is cleared, so no data of the previous user stays in memory.
+
+## Shop pages
+
+- `features/products/` holds the types, the API calls (`api.ts`), the TanStack Query hooks (`hooks.ts`) and the filter helpers (`filters.ts`).
+- The shop filters live in the URL (`/shop?category=laptops&sort=price_asc&page=2`). `useShopFilters` reads and updates them, and `readFilters` replaces any invalid value with a default.
+- Prices in the URL and in the filters are dollars as typed ("19.99"). They are converted to cents with `dollarsToCents` right before the API call.
+- Every data page handles four states: loading (skeleton), error (message and retry), empty, and success.
+- While a new page loads, the previous one stays on screen, dimmed (`keepPreviousData`).
+- Components: `ProductCard`, `ProductGrid`, `ProductGridSkeleton`, `ShopSidebar`, `SortSelect`, `Pagination`, `ErrorState`, `EmptyState`.

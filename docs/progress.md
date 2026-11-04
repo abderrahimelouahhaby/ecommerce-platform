@@ -68,3 +68,12 @@ A short note after each part: what I built, what I learned, what was hard.
 - Added route guards for logged in users, admins and visitors, while the server stays the real lock
 - Protected the redirect after login against open redirect attacks, and cleared the query cache on logout
 - Added Playwright with its own ports and test database, and wrote 4 end to end tests plus a unit test for the redirect helper
+
+## Part 8: Shop pages
+
+- Built the data layer for products: types, API functions and TanStack Query hooks
+- Stored the shop filters in the URL, with validation that falls back to defaults, so pages can be shared and the Back button works
+- Built the shop page with search, categories, a price filter, sorting and pagination, and a product details page
+- Handled loading, error, empty and not found states, and kept the previous page on screen while the next one loads
+- Added the categories and new arrivals to the home page
+- Tested only the dollars to cents conversion and two e2e journeys (filter and open a product, product not found)
