@@ -24,3 +24,8 @@ export function getErrorMessage(error: unknown): string {
 
   return "Something went wrong. Please try again.";
 }
+
+// True when the server answered 404 (the thing does not exist).
+export function isNotFound(error: unknown): boolean {
+  return axios.isAxiosError(error) && error.response?.status === 404;
+}
