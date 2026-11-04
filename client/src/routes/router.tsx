@@ -6,7 +6,9 @@ import { HomePage } from "@/pages/HomePage";
 import { LoginPage } from "@/pages/LoginPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PlaceholderPage } from "@/pages/PlaceholderPage";
+import { ProductPage } from "@/pages/ProductPage";
 import { RegisterPage } from "@/pages/RegisterPage";
+import { ShopPage } from "@/pages/ShopPage";
 import { AdminRoute } from "./AdminRoute";
 import { GuestRoute } from "./GuestRoute";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -16,7 +18,8 @@ export const router = createBrowserRouter([
     element: <PublicLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "shop", element: <PlaceholderPage title="Shop" /> },
+      { path: "shop", element: <ShopPage /> },
+      { path: "products/:slug", element: <ProductPage /> },
       { path: "cart", element: <PlaceholderPage title="Cart" /> },
       {
         // Only for visitors.
