@@ -77,3 +77,12 @@ A short note after each part: what I built, what I learned, what was hard.
 - Handled loading, error, empty and not found states, and kept the previous page on screen while the next one loads
 - Added the categories and new arrivals to the home page
 - Tested only the dollars to cents conversion and two e2e journeys (filter and open a product, product not found)
+
+## Part 9: Cart
+
+- Wrote the cart rules as pure functions: add, change quantity, remove, totals, and a check for saved data
+- Limited quantities by the stock and by a maximum per product, and kept prices in exact cents
+- Built a Zustand store saved in localStorage, and validated the saved data when it loads, because users can edit it
+- Added the add to cart button, a cart drawer in the navbar and a full cart page
+- Saw in DevTools that a price in localStorage can be changed, which is why the server must recompute prices at checkout
+- Wrote 15 unit tests on the cart logic and 2 e2e tests (a full cart journey with reload, and an out of stock product)

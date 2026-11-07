@@ -55,3 +55,12 @@ The client always calls `/api/...`. In development Vite forwards it to `http://l
 - Every data page handles four states: loading (skeleton), error (message and retry), empty, and success.
 - While a new page loads, the previous one stays on screen, dimmed (`keepPreviousData`).
 - Components: `ProductCard`, `ProductGrid`, `ProductGridSkeleton`, `ShopSidebar`, `SortSelect`, `Pagination`, `ErrorState`, `EmptyState`.
+
+## Cart
+
+- The cart rules are pure functions in `features/cart/cartLogic.ts` (add, change quantity, remove, totals, sanitize). The Zustand store in `cartStore.ts` only calls them.
+- The cart is saved in localStorage under the key `gadgethub-cart`. When it loads, `sanitizeCart` checks every field, because users can edit localStorage.
+- Limits: at most the stock, at most 10 of one product, at most 50 lines.
+- The cart keeps a snapshot of the name, price and stock for display. It is never trusted: the server reads the real prices and stock when an order is created.
+- `useCart()` gives the items, the totals and the actions to components. Do not return a new object from a Zustand selector, compute derived values with `useMemo`.
+- The cart drawer (`CartButton`) and the cart page share `CartItemRow`.
