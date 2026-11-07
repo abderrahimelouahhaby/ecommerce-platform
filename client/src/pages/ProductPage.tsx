@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AddToCartButton } from "@/features/cart/AddToCartButton";
 import { useProduct } from "@/features/products/hooks";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { getErrorMessage, isNotFound } from "@/lib/api";
@@ -92,7 +93,9 @@ export function ProductPage() {
 
           <p className="text-muted-foreground">{product.description}</p>
 
-          {/* The "Add to cart" and wishlist buttons are added in later parts. */}
+          <AddToCartButton product={product} />
+
+          {/* The wishlist button is added in part 10. */}
         </div>
       </article>
     </div>
