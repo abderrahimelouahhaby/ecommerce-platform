@@ -1,7 +1,7 @@
-import { Menu, ShoppingCart } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink } from "react-router";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { CartButton } from "./CartButton";
 import { ThemeToggle } from "./ThemeToggle";
 import { UserMenu } from "./UserMenu";
 
@@ -56,13 +57,7 @@ export function Navbar() {
 
         <div className="ml-auto flex items-center gap-1">
           <ThemeToggle />
-          <Link
-            to="/cart"
-            aria-label="Cart"
-            className={buttonVariants({ variant: "ghost", size: "icon" })}
-          >
-            <ShoppingCart className="size-5" />
-          </Link>
+          <CartButton />
           <UserMenu />
         </div>
       </div>

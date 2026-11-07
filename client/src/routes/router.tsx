@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import { AdminDashboardPage } from "@/pages/AdminDashboardPage";
+import { CartPage } from "@/pages/CartPage";
 import { HomePage } from "@/pages/HomePage";
 import { LoginPage } from "@/pages/LoginPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "shop", element: <ShopPage /> },
       { path: "products/:slug", element: <ProductPage /> },
-      { path: "cart", element: <PlaceholderPage title="Cart" /> },
+      { path: "cart", element: <CartPage /> },
       {
         // Only for visitors.
         element: <GuestRoute />,
@@ -33,6 +34,7 @@ export const router = createBrowserRouter([
         // Only for logged in users. The real pages come in later parts.
         element: <ProtectedRoute />,
         children: [
+          { path: "checkout", element: <PlaceholderPage title="Checkout" /> },
           { path: "wishlist", element: <PlaceholderPage title="Wishlist" /> },
           { path: "orders", element: <PlaceholderPage title="Orders" /> },
         ],
