@@ -3,7 +3,7 @@ import { AppError } from "../../lib/appError.js";
 import { prisma } from "../../lib/prisma.js";
 import type { ProductListQuery, ProductSort } from "./products.schema.js";
 
-const publicProductSelect = {
+export const publicProductSelect = {
   id: true,
   name: true,
   slug: true,
