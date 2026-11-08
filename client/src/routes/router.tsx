@@ -10,6 +10,7 @@ import { PlaceholderPage } from "@/pages/PlaceholderPage";
 import { ProductPage } from "@/pages/ProductPage";
 import { RegisterPage } from "@/pages/RegisterPage";
 import { ShopPage } from "@/pages/ShopPage";
+import { WishlistPage } from "@/pages/WishlistPage";
 import { AdminRoute } from "./AdminRoute";
 import { GuestRoute } from "./GuestRoute";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -35,7 +36,7 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
           { path: "checkout", element: <PlaceholderPage title="Checkout" /> },
-          { path: "wishlist", element: <PlaceholderPage title="Wishlist" /> },
+          { path: "wishlist", element: <WishlistPage /> },
           { path: "orders", element: <PlaceholderPage title="Orders" /> },
         ],
       },

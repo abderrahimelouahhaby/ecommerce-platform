@@ -64,3 +64,15 @@ Returns `{ "data": { ...product } }`, or 404 `Product not found` (also for inact
 ### GET /categories
 
 Returns `{ "data": [ { "id", "name", "slug", "productCount" } ] }`, sorted by name. `productCount` counts active products only.
+
+## Wishlist (logged in users)
+
+All wishlist routes need a session. The user id always comes from the session, never from the request.
+
+| Method | Path                   | Purpose                                                                                       |
+| ------ | ---------------------- | --------------------------------------------------------------------------------------------- |
+| GET    | `/wishlist`            | My saved products, newest first. Inactive products are hidden                                 |
+| POST   | `/wishlist/:productId` | Save a product. Safe to repeat. 404 for an unknown or inactive product, 400 for an invalid id |
+| DELETE | `/wishlist/:productId` | Remove a product from my wishlist. Safe to repeat, answers 204                                |
+
+`GET /wishlist` returns `{ "data": [ { "addedAt": "...", "product": { ...product } } ] }`.

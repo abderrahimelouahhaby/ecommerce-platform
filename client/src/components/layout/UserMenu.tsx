@@ -42,6 +42,12 @@ export function UserMenu() {
 
   return (
     <div className="ml-2 flex items-center gap-2">
+      <Link
+        to="/wishlist"
+        className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "hidden sm:inline-flex")}
+      >
+        Wishlist
+      </Link>
       {isAdmin && (
         <Link to="/admin" className={buttonVariants({ variant: "ghost", size: "sm" })}>
           Admin

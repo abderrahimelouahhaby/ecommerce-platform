@@ -64,3 +64,11 @@ The client always calls `/api/...`. In development Vite forwards it to `http://l
 - The cart keeps a snapshot of the name, price and stock for display. It is never trusted: the server reads the real prices and stock when an order is created.
 - `useCart()` gives the items, the totals and the actions to components. Do not return a new object from a Zustand selector, compute derived values with `useMemo`.
 - The cart drawer (`CartButton`) and the cart page share `CartItemRow`.
+
+## Wishlist
+
+- `features/wishlist/hooks.ts` holds the query (`useWishlist`), the set of saved ids (`useWishlistIds`) and the optimistic toggle (`useToggleWishlist`).
+- The query key contains the user id (`["wishlist", userId]`), so cached data of one user is never shown to another. The whole cache is also cleared on logout.
+- Optimistic update in three steps: `onMutate` changes the cache at once, `onError` puts the old list back, `onSettled` refetches the real list.
+- `WishlistButton` has two looks (`icon` for cards, `labeled` for the product page). A visitor who clicks it is sent to login and comes back.
+- A button must never be inside a link. On the product card the heart is a sibling of the link, placed over the image.
