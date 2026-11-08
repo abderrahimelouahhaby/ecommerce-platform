@@ -86,3 +86,12 @@ A short note after each part: what I built, what I learned, what was hard.
 - Added the add to cart button, a cart drawer in the navbar and a full cart page
 - Saw in DevTools that a price in localStorage can be changed, which is why the server must recompute prices at checkout
 - Wrote 15 unit tests on the cart logic and 2 e2e tests (a full cart journey with reload, and an out of stock product)
+
+## Part 10: Wishlist
+
+- Built the wishlist routes with the user id taken only from the session, which prevents IDOR
+- Made adding and removing safe to repeat (upsert on a unique pair, deleteMany with the user id)
+- Hid products that became inactive, and refused unknown, inactive and malformed product ids
+- Added a heart button on cards and on the product page, and a wishlist page, with optimistic updates in three steps
+- Keyed the cached wishlist by user id, so one user never sees the data of another
+- Wrote 6 server tests on privacy and rules, and 2 e2e tests (save and remove, visitor sent to login)
