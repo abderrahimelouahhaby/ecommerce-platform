@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AddToCartButton } from "@/features/cart/AddToCartButton";
 import { useProduct } from "@/features/products/hooks";
+import { WishlistButton } from "@/features/wishlist/WishlistButton";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { getErrorMessage, isNotFound } from "@/lib/api";
 import { formatPrice } from "@/lib/format";
@@ -93,9 +94,10 @@ export function ProductPage() {
 
           <p className="text-muted-foreground">{product.description}</p>
 
-          <AddToCartButton product={product} />
-
-          {/* The wishlist button is added in part 10. */}
+          <div className="flex flex-wrap items-start gap-3">
+            <AddToCartButton product={product} />
+            <WishlistButton product={product} variant="labeled" />
+          </div>
         </div>
       </article>
     </div>
