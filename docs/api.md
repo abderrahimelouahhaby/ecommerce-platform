@@ -76,3 +76,32 @@ All wishlist routes need a session. The user id always comes from the session, n
 | DELETE | `/wishlist/:productId` | Remove a product from my wishlist. Safe to repeat, answers 204                                |
 
 `GET /wishlist` returns `{ "data": [ { "addedAt": "...", "product": { ...product } } ] }`.
+
+## Orders (logged in users)
+
+All order routes need a session. The user id always comes from the session, never from the request.
+
+| Method | Path                 | Purpose                                                                  |
+| ------ | -------------------- | ------------------------------------------------------------------------ |
+| POST   | `/orders`            | Create a cash on delivery order. Rate limited (30 per 15 minutes per IP) |
+| GET    | `/orders`            | My 50 newest orders                                                      |
+| GET    | `/orders/:id`        | One of my orders. 404 if it does not exist or is not mine                |
+| POST   | `/orders/:id/cancel` | Cancel my pending order and restore the stock                            |
+
+`POST /orders` body:
+
+    {
+      "items": [{ "productId": "uuid", "quantity": 2 }],
+      "shipping": {
+        "name": "Demo Customer",
+        "phone": "+212 600 000 000",
+        "address": "12 Example Street",
+        "city": "Casablanca",
+        "postalCode": "20000",
+        "country": "Morocco"
+      }
+    }
+
+Prices, names and stock are never accepted from the client, the server reads them from the database. A quantity is 1 to 10, and an order has 1 to 50 lines.
+
+Errors: 400 invalid body, 401 not logged in, 404 unknown or inactive product (or order), 409 not enough stock (or an order that is not pending).

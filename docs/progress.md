@@ -95,3 +95,12 @@ A short note after each part: what I built, what I learned, what was hard.
 - Added a heart button on cards and on the product page, and a wishlist page, with optimistic updates in three steps
 - Keyed the cached wishlist by user id, so one user never sees the data of another
 - Wrote 6 server tests on privacy and rules, and 2 e2e tests (save and remove, visitor sent to login)
+
+## Part 11: Orders and cash on delivery
+
+- Built order creation as one transaction that reads the real prices, reserves the stock and creates the order with a snapshot of each item
+- Reserved the stock with an atomic conditional update, so two customers cannot buy the last item together
+- Made cancelling a pending order an atomic status change, so the stock is restored once and only once
+- Used the user id from the session in every query, and answered 404 for orders of other users
+- Ignored any price sent by the client, and limited the quantities and the number of lines on the server
+- Wrote 11 tests: real prices, stock limits, the race on the last item, rollback, unavailable products, validation, privacy and a single stock restore
