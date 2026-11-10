@@ -30,8 +30,10 @@ export async function makeAdmin(email: string): Promise<void> {
   await prisma.user.update({ where: { email }, data: { role: "ADMIN" } });
 }
 
-// Deletes the users created by the tests. Sessions and accounts are deleted with them.
+// Deletes the users created by the tests, and their orders first (an order keeps its user).
+// Sessions, accounts, wishlist rows and order items are deleted with their parent.
 export async function cleanupUsers(): Promise<void> {
+  await prisma.order.deleteMany({ where: { user: { email: { in: createdEmails } } } });
   await prisma.user.deleteMany({ where: { email: { in: createdEmails } } });
   createdEmails.length = 0;
 }
