@@ -104,3 +104,14 @@ A short note after each part: what I built, what I learned, what was hard.
 - Used the user id from the session in every query, and answered 404 for orders of other users
 - Ignored any price sent by the client, and limited the quantities and the number of lines on the server
 - Wrote 11 tests: real prices, stock limits, the race on the last item, rollback, unavailable products, validation, privacy and a single stock restore
+
+## Part 12: Stripe card payments
+
+- Created the checkout session from the order items, so Stripe always shows the prices of the database
+- Reused the order creation of part 11 for card orders, with the same atomic stock rules
+- Added the webhook with the raw body and the signature check, so only Stripe can mark an order as paid
+- Checked the amount and made every update safe to repeat, because Stripe can send an event twice
+- Cancelled the order and restored the stock when a session expires, when Stripe is down, and expired the session when a customer cancels
+- Tested the webhook by signing fake events locally with the test secret, and replaced the call to Stripe in the session tests
+- Wrote 9 tests on the webhook security, the amount check, repeated events, expired sessions and the checkout session
+- Learned: how to setup stripe

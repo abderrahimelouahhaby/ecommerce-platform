@@ -8,6 +8,7 @@ import { auth } from "./lib/auth.js";
 import { logger } from "./lib/logger.js";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
 import { createRateLimiter } from "./middleware/rateLimit.js";
+import { stripeWebhookHandler } from "./modules/payments/payments.controller.js";
 import { apiRouter } from "./routes/index.js";
 
 export const app = express();
@@ -45,7 +46,14 @@ app.use(
 );
 app.all("/api/auth/*splat", toNodeHandler(auth));
 
-// Note for later: the Stripe webhook must also be mounted before this line.
+// The Stripe webhook needs the RAW body to check the signature.
+// It must come BEFORE express.json(), which would change the body.
+app.post(
+  "/api/payments/webhook",
+  express.raw({ type: "application/json", limit: "256kb" }),
+  stripeWebhookHandler,
+);
+
 app.use(express.json({ limit: "10kb" }));
 
 app.use("/api", apiRouter);

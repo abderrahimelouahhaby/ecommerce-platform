@@ -4,7 +4,6 @@ import { prisma } from "../../lib/prisma.js";
 import { type CreateOrderInput, MAX_QUANTITY_PER_ITEM } from "./orders.schema.js";
 
 // The fields of an order that are sent to the customer.
-// userId and stripeSessionId are internal and are not listed on purpose.
 export const orderSelect = {
   id: true,
   status: true,
@@ -31,6 +30,8 @@ type OrderLine = {
   quantity: number;
 };
 
+type PaymentMethod = "COD" | "CARD";
+
 // If the same product appears twice, add the quantities, and check the limit again.
 function mergeQuantities(items: CreateOrderInput["items"]): Map<string, number> {
   const quantities = new Map<string, number>();
@@ -48,7 +49,13 @@ function mergeQuantities(items: CreateOrderInput["items"]): Map<string, number> 
   return quantities;
 }
 
-export async function createOrder(userId: string, input: CreateOrderInput) {
+// Creates a pending order and reserves the stock, in one transaction.
+// The payment method only changes how the customer pays later, the stock rules are the same.
+export async function createOrder(
+  userId: string,
+  input: CreateOrderInput,
+  paymentMethod: PaymentMethod = "COD",
+) {
   const quantities = mergeQuantities(input.items);
 
   // Always handle the products in the same order. Two orders that share products then
@@ -103,7 +110,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
       data: {
         userId,
         status: "PENDING",
-        paymentMethod: "COD",
+        paymentMethod,
         paymentStatus: "UNPAID",
         totalCents,
         shippingName: input.shipping.name,
@@ -142,6 +149,22 @@ export async function getOrder(userId: string, orderId: string) {
   return order;
 }
 
+// Puts the stock of an order back. It must run inside the transaction that cancels the order.
+async function restoreStock(tx: Prisma.TransactionClient, orderId: string): Promise<void> {
+  const items = await tx.orderItem.findMany({
+    where: { orderId },
+    select: { productId: true, quantity: true },
+  });
+
+  // Same product order as when the order was created.
+  for (const item of items.sort((a, b) => a.productId.localeCompare(b.productId))) {
+    await tx.product.update({
+      where: { id: item.productId },
+      data: { stock: { increment: item.quantity } },
+    });
+  }
+}
+
 export async function cancelOrder(userId: string, orderId: string) {
   return prisma.$transaction(async (tx) => {
     // One atomic step: only one request can move the order from PENDING to CANCELLED.
@@ -164,19 +187,27 @@ export async function cancelOrder(userId: string, orderId: string) {
       throw new AppError(409, "Only a pending order can be cancelled");
     }
 
-    // Put the stock back (same product order as when the order was created).
-    const items = await tx.orderItem.findMany({
-      where: { orderId },
-      select: { productId: true, quantity: true },
-    });
-
-    for (const item of items.sort((a, b) => a.productId.localeCompare(b.productId))) {
-      await tx.product.update({
-        where: { id: item.productId },
-        data: { stock: { increment: item.quantity } },
-      });
-    }
+    await restoreStock(tx, orderId);
 
     return tx.order.findUniqueOrThrow({ where: { id: orderId }, select: orderSelect });
+  });
+}
+
+// Used by the Stripe webhook when a payment session expires. No user is involved.
+// Returns false when there was nothing to cancel (already paid, cancelled or handled).
+export async function cancelUnpaidOrder(orderId: string): Promise<boolean> {
+  return prisma.$transaction(async (tx) => {
+    const claimed = await tx.order.updateMany({
+      where: { id: orderId, status: "PENDING", paymentStatus: "UNPAID" },
+      data: { status: "CANCELLED", paymentStatus: "FAILED" },
+    });
+
+    if (claimed.count === 0) {
+      return false;
+    }
+
+    await restoreStock(tx, orderId);
+
+    return true;
   });
 }
