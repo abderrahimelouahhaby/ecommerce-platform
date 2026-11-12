@@ -105,3 +105,14 @@ All order routes need a session. The user id always comes from the session, neve
 Prices, names and stock are never accepted from the client, the server reads them from the database. A quantity is 1 to 10, and an order has 1 to 50 lines.
 
 Errors: 400 invalid body, 401 not logged in, 404 unknown or inactive product (or order), 409 not enough stock (or an order that is not pending).
+
+## Payments
+
+| Method | Path                         | Access      | Purpose                                                                                                                                                                |
+| ------ | ---------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| POST   | `/payments/checkout-session` | Logged in   | Create a card order and a Stripe Checkout session. Same body as `POST /orders`. Returns `{ "data": { "orderId", "url" } }`, the browser must go to `url`. Rate limited |
+| POST   | `/payments/webhook`          | Stripe only | Receives Stripe events. Needs a valid `Stripe-Signature` header, answers 400 otherwise                                                                                 |
+
+Errors of the checkout session route: 400 invalid body, 401 not logged in, 404 unknown or inactive product, 409 not enough stock, 502 the payment service is unavailable (the order is cancelled and the stock restored).
+
+An order becomes `PAID` only through a verified `checkout.session.completed` webhook with the right amount. Opening the success page never changes an order.

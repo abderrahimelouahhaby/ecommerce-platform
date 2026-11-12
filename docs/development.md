@@ -84,7 +84,7 @@ Then run the migrations and the seed inside `server/`:
 
 How the login works, the routes and the development accounts are in `docs/auth.md`.
 
-## Client (from part 6)
+## Client
 
 In `client/`, copy the example file and start the dev server (the API server must run too):
 
@@ -93,3 +93,12 @@ In `client/`, copy the example file and start the dev server (the API server mus
     npm run dev
 
 From the project root you can also use `npm run dev:server` and `npm run dev:client`, each in its own terminal tab. The app runs on http://localhost:5173 and sends `/api` requests to the server on port 4000. More details are in `docs/client.md`.
+
+## Stripe
+
+Add these variables to `server/.env` (see `server/.env.example`). The server will not start without values that have the right format.
+
+    STRIPE_SECRET_KEY=sk_test_...
+    STRIPE_WEBHOOK_SECRET=whsec_...
+
+Use placeholders like `sk_test_replace_me` and `whsec_replace_me` if you have no Stripe account, cash on delivery still works. To try card payments locally, follow `docs/payments.md`.
