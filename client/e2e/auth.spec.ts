@@ -21,7 +21,7 @@ test("a protected page sends a visitor to login and back after login", async ({ 
   await logInThroughUi(page, email);
 
   await expect(page).toHaveURL(/\/orders$/);
-  await expect(page.getByRole("heading", { name: "Orders" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Orders", exact: true })).toBeVisible();
 });
 
 test("a visitor cannot open the admin area", async ({ page }) => {
