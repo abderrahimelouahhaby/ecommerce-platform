@@ -26,18 +26,27 @@ type UseOrderOptions = {
 export function useOrder(orderId: string, options: UseOrderOptions = {}) {
   const { isAuthenticated } = useAuth();
   const ordersKey = useOrdersKey();
+  const queryClient = useQueryClient();
+  const queryKey = [...ordersKey, "detail", orderId] as const;
 
-  return useQuery({
-    queryKey: [...ordersKey, "detail", orderId],
+  const query = useQuery({
+    queryKey,
     queryFn: () => fetchOrder(orderId),
     enabled: isAuthenticated && orderId !== "",
     // An order that does not exist will not appear if we ask again.
     retry: (failureCount, error) => !isNotFound(error) && failureCount < 1,
     refetchInterval: options.waitForPayment
-      ? (query) =>
-          query.state.data?.status === "PENDING" && query.state.dataUpdateCount < 15 ? 2000 : false
+      ? (current) =>
+          current.state.data?.status === "PENDING" && current.state.dataUpdateCount < 15
+            ? 2000
+            : false
       : false,
   });
+
+  // How many times the order was fetched. The success page uses it to stop waiting after a while.
+  const updateCount = queryClient.getQueryState(queryKey)?.dataUpdateCount ?? 0;
+
+  return { ...query, updateCount };
 }
 
 export function useCancelOrder() {
