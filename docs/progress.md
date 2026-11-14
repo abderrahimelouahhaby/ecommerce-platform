@@ -115,3 +115,13 @@ A short note after each part: what I built, what I learned, what was hard.
 - Tested the webhook by signing fake events locally with the test secret, and replaced the call to Stripe in the session tests
 - Wrote 9 tests on the webhook security, the amount check, repeated events, expired sessions and the checkout session
 - Learned: how to setup stripe
+
+## Part 13: Checkout UI and order pages
+
+- Built the checkout page with a shipping form, a payment method choice and an order summary
+- Sent only product ids, quantities and the address, and showed the server errors (for example not enough stock)
+- Cleared the cart after a cash order, but only after a confirmed payment for a card order
+- Built a success page that polls the order until the signed webhook marks it paid, and a cancelled page that never cancels on load
+- Added the order history and the order details pages with status badges and a cancel button with a confirmation popup
+- Kept order data private in the cache with the user id in the keys, and showed "Order not found" for the orders of others
+- Wrote 4 e2e tests: a cash order and its history, cancelling an order, another customer's order, and a card payment that sends no price
