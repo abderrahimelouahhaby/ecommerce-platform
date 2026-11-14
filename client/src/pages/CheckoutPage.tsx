@@ -23,6 +23,8 @@ export function CheckoutPage() {
   const queryClient = useQueryClient();
   const [serverError, setServerError] = useState<string | null>(null);
   const [redirecting, setRedirecting] = useState(false);
+  // Once the order exists, an empty cart must not send us to /cart anymore.
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const {
     register,
@@ -44,8 +46,9 @@ export function CheckoutPage() {
 
   const paymentMethod = watch("paymentMethod");
 
-  // Nothing to buy: back to the cart.
-  if (items.length === 0) {
+  // Nothing to buy: back to the cart. Not after placing an order: the cart is emptied
+  // right after the navigation to the order page.
+  if (items.length === 0 && !orderPlaced) {
     return <Navigate to="/cart" replace />;
   }
 
@@ -76,7 +79,9 @@ export function CheckoutPage() {
       void queryClient.invalidateQueries({ queryKey: ["product"] });
       void queryClient.invalidateQueries({ queryKey: ["orders"] });
 
-      // Go to the order first, then empty the cart (an empty cart would redirect this page).
+      // Go to the order first, then empty the cart. orderPlaced stops the empty-cart
+      // redirect above from firing while the navigation is still in progress.
+      setOrderPlaced(true);
       navigate(`/orders/${order.id}?placed=1`);
       clear();
     } catch (error) {
