@@ -72,3 +72,13 @@ The client always calls `/api/...`. In development Vite forwards it to `http://l
 - Optimistic update in three steps: `onMutate` changes the cache at once, `onError` puts the old list back, `onSettled` refetches the real list.
 - `WishlistButton` has two looks (`icon` for cards, `labeled` for the product page). A visitor who clicks it is sent to login and comes back.
 - A button must never be inside a link. On the product card the heart is a sibling of the link, placed over the image.
+
+## Checkout and orders
+
+- `features/orders` holds the types, the API calls and the hooks. Order query keys contain the user id, like the wishlist.
+- The checkout form sends only product ids, quantities and the address. Prices are never sent, the server reads them from the database.
+- Cash on delivery: after the order is created, the app navigates to the order page and then clears the cart.
+- Card: the app asks the server for a Stripe page and sends the browser to it. The cart is cleared only on the success page, when the order is really `PAID`.
+- The success page polls the order every 2 seconds (up to 15 times) until the signed webhook has marked it as paid. It never claims a payment by itself.
+- The cancelled page offers to cancel the order, it does not cancel on load.
+- Order pages are behind `ProtectedRoute`. An order of another user is shown as "Order not found".

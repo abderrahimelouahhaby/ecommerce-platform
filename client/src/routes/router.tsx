@@ -3,10 +3,14 @@ import { AdminLayout } from "@/components/layout/AdminLayout";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import { AdminDashboardPage } from "@/pages/AdminDashboardPage";
 import { CartPage } from "@/pages/CartPage";
+import { CheckoutCancelledPage } from "@/pages/CheckoutCancelledPage";
+import { CheckoutPage } from "@/pages/CheckoutPage";
+import { CheckoutSuccessPage } from "@/pages/CheckoutSuccessPage";
 import { HomePage } from "@/pages/HomePage";
 import { LoginPage } from "@/pages/LoginPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
-import { PlaceholderPage } from "@/pages/PlaceholderPage";
+import { OrderPage } from "@/pages/OrderPage";
+import { OrdersPage } from "@/pages/OrdersPage";
 import { ProductPage } from "@/pages/ProductPage";
 import { RegisterPage } from "@/pages/RegisterPage";
 import { ShopPage } from "@/pages/ShopPage";
@@ -32,12 +36,15 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        // Only for logged in users. The real pages come in later parts.
+        // Only for logged in users.
         element: <ProtectedRoute />,
         children: [
-          { path: "checkout", element: <PlaceholderPage title="Checkout" /> },
+          { path: "checkout", element: <CheckoutPage /> },
+          { path: "checkout/success", element: <CheckoutSuccessPage /> },
+          { path: "checkout/cancelled", element: <CheckoutCancelledPage /> },
           { path: "wishlist", element: <WishlistPage /> },
-          { path: "orders", element: <PlaceholderPage title="Orders" /> },
+          { path: "orders", element: <OrdersPage /> },
+          { path: "orders/:id", element: <OrderPage /> },
         ],
       },
       { path: "*", element: <NotFoundPage /> },

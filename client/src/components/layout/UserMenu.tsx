@@ -43,6 +43,12 @@ export function UserMenu() {
   return (
     <div className="ml-2 flex items-center gap-2">
       <Link
+        to="/orders"
+        className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "hidden sm:inline-flex")}
+      >
+        Orders
+      </Link>
+      <Link
         to="/wishlist"
         className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "hidden sm:inline-flex")}
       >
