@@ -263,12 +263,10 @@ describe("checkout session", () => {
     const product = await createProduct(5, 1999);
     const { agent, email } = await registerUser("pay-session");
     const sessionId = `cs_test_${randomUUID().replace(/-/g, "")}`;
-    const createSession = vi
-      .spyOn(stripe.checkout.sessions, "create")
-      .mockResolvedValue({
-        id: sessionId,
-        url: `https://checkout.stripe.test/${sessionId}`,
-      } as never);
+    const createSession = vi.spyOn(stripe.checkout.sessions, "create").mockResolvedValue({
+      id: sessionId,
+      url: `https://checkout.stripe.test/${sessionId}`,
+    } as never);
 
     const res = await agent.post("/api/payments/checkout-session").send({
       // The client tries to pay 1 cent. The server ignores it.
