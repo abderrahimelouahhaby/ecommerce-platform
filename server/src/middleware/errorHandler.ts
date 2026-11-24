@@ -1,4 +1,5 @@
 import type { ErrorRequestHandler, RequestHandler } from "express";
+import multer from "multer";
 import { ZodError, z } from "zod";
 import { AppError } from "../lib/appError.js";
 import { logger } from "../lib/logger.js";
@@ -25,6 +26,17 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
     res.status(400).json({
       error: { message: "Validation failed", details: z.flattenError(err).fieldErrors },
     });
+    return;
+  }
+
+  // Errors of file uploads, for example a file that is too big.
+  if (err instanceof multer.MulterError) {
+    const message =
+      err.code === "LIMIT_FILE_SIZE"
+        ? "The image is too large (2 MB maximum)"
+        : "The upload is not valid";
+
+    res.status(400).json({ error: { message } });
     return;
   }
 

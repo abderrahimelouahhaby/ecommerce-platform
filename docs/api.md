@@ -116,3 +116,24 @@ Errors: 400 invalid body, 401 not logged in, 404 unknown or inactive product (or
 Errors of the checkout session route: 400 invalid body, 401 not logged in, 404 unknown or inactive product, 409 not enough stock, 502 the payment service is unavailable (the order is cancelled and the stock restored).
 
 An order becomes `PAID` only through a verified `checkout.session.completed` webhook with the right amount. Opening the success page never changes an order.
+
+## Admin (admins only)
+
+Every route under `/admin` needs a logged in admin: 401 for visitors, 403 for customers. Lists accept `page` (from 1) and `limit` (1 to 100, default 20) and answer `{ "data": [...], "pagination": {...} }`.
+
+| Method | Path                         | Purpose                                                                                                |
+| ------ | ---------------------------- | ------------------------------------------------------------------------------------------------------ |
+| GET    | `/admin/products`            | All products, active or not. Filters: `search`, `status` (`all`, `active`, `inactive`)                 |
+| POST   | `/admin/products`            | Create a product. JSON or `multipart/form-data` with an optional `image` file. Slug made by the server |
+| PATCH  | `/admin/products/:id`        | Update some fields, and/or replace the image                                                           |
+| DELETE | `/admin/products/:id`        | Deactivate the product (204). It is never deleted                                                      |
+| GET    | `/admin/orders`              | All orders with the buyer. Filter: `status`                                                            |
+| PATCH  | `/admin/orders/:id/status`   | Body `{ "status": "SHIPPED" }` or `{ "status": "DELIVERED" }`                                          |
+| GET    | `/admin/users`               | Users with their number of orders. Filter: `search`                                                    |
+| PATCH  | `/admin/users/:id/role`      | Body `{ "role": "USER" }` or `{ "role": "ADMIN" }`. Not for your own account                           |
+| GET    | `/admin/stats`               | `revenueCents`, `salesCount`, `pendingCount`, `usersCount`, `lowStockCount`                            |
+| GET    | `/admin/stats/sales?days=30` | One entry per day (UTC) with `date`, `revenueCents` and `orders`. `days` from 7 to 90                  |
+| GET    | `/admin/inventory`           | Products by stock, lowest first. Filter: `status` (`all`, `low`, `out`)                                |
+| PATCH  | `/admin/inventory/:id`       | Body `{ "stock": 12 }`, a whole number from 0                                                          |
+
+Image rules: one file in the field `image`, JPEG, PNG or WebP (checked by the real content of the file), at most 2 MB. Errors: 400 invalid input or image, 404 not found, 409 an order status change that is not allowed.
