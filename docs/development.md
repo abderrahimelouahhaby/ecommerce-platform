@@ -102,3 +102,13 @@ Add these variables to `server/.env` (see `server/.env.example`). The server wil
     STRIPE_WEBHOOK_SECRET=whsec_...
 
 Use placeholders like `sk_test_replace_me` and `whsec_replace_me` if you have no Stripe account, cash on delivery still works. To try card payments locally, follow `docs/payments.md`.
+
+## Cloudinary
+
+Add these variables to `server/.env` (see `server/.env.example`). The server will not start without a value for each one.
+
+    CLOUDINARY_CLOUD_NAME=...
+    CLOUDINARY_API_KEY=...
+    CLOUDINARY_API_SECRET=...
+
+Placeholders like `replace_me` let the server start. Uploading a product image needs the real values from your Cloudinary dashboard (see `docs/admin.md`).

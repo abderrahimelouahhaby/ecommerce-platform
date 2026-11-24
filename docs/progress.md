@@ -125,3 +125,13 @@ A short note after each part: what I built, what I learned, what was hard.
 - Added the order history and the order details pages with status badges and a cancel button with a confirmation popup
 - Kept order data private in the cache with the user id in the keys, and showed "Order not found" for the orders of others
 - Wrote 4 e2e tests: a cash order and its history, cancelling an order, another customer's order, and a card payment that sends no price
+
+## Part 14: Admin API
+
+- Built the admin routes for products, orders, users, stats and inventory, all behind the existing admin guard
+- Uploaded product images to Cloudinary from memory, with a size limit and a check of the real file type (magic bytes) instead of the file name
+- Soft deleted products (deactivated, never removed), and cleaned up images when a save fails or an image is replaced
+- Limited order status changes to valid forward steps, protected against two admins acting at once, and marked cash orders as paid on delivery
+- Stopped an admin from changing their own role, and wrote an audit log line for every sensitive action
+- Computed revenue from confirmed sales only, and filled every day with zeros for the sales chart
+- Wrote 19 tests: access on all 12 admin routes, image upload security, deactivation, order steps, roles, revenue, sales per day and stock
